@@ -1,0 +1,15 @@
+Kas yra branch ?
+Branch tai atšaka (kaip ir angliško žodžio reikšmė), kurioje galima tobulinti kodą jį redeaguoti ir testuotis, nepaveikiant
+pagrindinės programos arba master branch. Taip pat, tokiu būdu, prie programos gali dirbti keletas programuotojų vienu metu.
+
+Kas yra commit ?
+Commit naudojama, kai jau atlikti pakeitimai, tuomet pakeitimai commit būdu įkeliami į dirbamą arba pagrindinę atšaką (master branch)
+
+Kas yra repository ?
+Repository tai vieta kur incianizuojamas GIT ir jame gali dirbti su šia programa, kurti atšakas ir daryti pakitimus.
+
+GIT status:
+GIT status parodo, kurios programos yra pakeistos ir dar nesu commitintos į atšaką, kartu su tomis kurios jau yra ten. Taip pat
+patikrinti ar kas kitas neįkėlė naujesnės versijos.
+
+GIT clone: Naudojant git clone, galima iš github.com parsisiųti kito vartotojo visą git repository į savo kompiuterį, taip sutaupant laiko.
