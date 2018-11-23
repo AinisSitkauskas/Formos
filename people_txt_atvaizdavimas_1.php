@@ -2,7 +2,7 @@
 <html lang="lt">
 <head>
  <meta charset="UTF-8">
- <title>Asmens duomenų forma</title>
+ <title>Asmens duomenų atvaizdavimas</title>
 
   <style>
   table, th, td {
