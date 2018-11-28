@@ -24,7 +24,7 @@
     $peopleNames = file_get_contents("people.txt");
     $names = explode("\n", $peopleNames);
     $n = count($names);
-for ($i = 1; $i <= $n; $i++) {
+for ($i = 1; $i < $n; $i++) {
       $onePerson = $names[$i-1];
       $nameRow = explode(" ", $onePerson); ?>
       <tr>
