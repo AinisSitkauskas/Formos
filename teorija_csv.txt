@@ -1,0 +1,8 @@
+CSV - comma separeted values.
+CSV failai, naudojami atvaizduoti reikšmes atskiriant jas kokia nors reiškme (paprastai kableliu).
+Kitaip galima sakyti, kad CSV failai yra lentelių duomenys, atvaizduoti paprastu tekstu. Kadangi
+reikšmės atvaizduojamos atskriant jas kableliu, atsiranda atvejų kuomet reikia atvaizduoti ir kablelį, tuomet
+naudojama escape character, paprastai tai būna kabutės.
+
+Naudojamos PHP funkcijos darbui su CSV failais:
+fgetcsv , fputcsv, str_getcsv.
