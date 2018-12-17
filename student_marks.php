@@ -20,6 +20,7 @@
     <th> Vardas </th>
     <th> Mokomasis dalykas </th>
     <th> Pažymys </th>
+    <th> Data </th>
 </tr>
 <?php
 
@@ -37,6 +38,7 @@ if (($studentNames = fopen("studentMarks.csv", "r")) !== false) {
           <td><?php echo htmlspecialchars($studentDataArray[1]); ?></td>
           <td><?php echo htmlspecialchars($studentDataArray[2]); ?></td>
           <td><?php echo htmlspecialchars($studentDataArray[3]); ?></td>
+          <td><?php echo htmlspecialchars($studentDataArray[4]); ?></td>
           </tr>
 
               <?php
