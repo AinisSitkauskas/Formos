@@ -15,7 +15,7 @@
 </head>
   <body>
 
-<h1>Mokomojo dalyko pažymių vidurkis </h1><br>
+<h2>Mokomojo dalyko pažymių vidurkis </h2><br>
     <form  method = "get" >
     Įveskite mokomąjį dalyką:<br>
       <input type="text" name="teachingSubject">
@@ -26,24 +26,23 @@
 <br>
 
 <?php
-if ($_SERVER['REQUEST_METHOD'] == 'GET' && !empty($_GET['teachingSubject'])) {
+if (!empty($_GET['teachingSubject'])) {
     $averageMark = 0;
     $counter = 0;
-    $studentNames = file_get_contents("studentMarks.csv");
-    $studentNamesArray = explode("\n", $studentNames);
-    $n = count($studentNamesArray);
-    sort($studentNamesArray, SORT_STRING);
+    if (($studentMarks = fopen("studentMarks.csv", "r")) !== false) {
+        while (($studentData = fgetcsv($studentMarks, 1000, "\n")) !== false) {
+            $n = count($studentData);
 
-    for ($i=1; $i < $n; $i++) {
-            $oneStudentData = $studentNamesArray[$i];
-            $oneStudentDataArray = explode(",", $oneStudentData);
-
-        if ($_GET['teachingSubject'] == $oneStudentDataArray[2]) {
-            $averageMark += $oneStudentDataArray[3];
-            $counter++;
+            for ($i=0; $i < $n; $i++) {
+                    $oneStudentDataArray = explode(",", $studentData[$i]);
+                    $oneStudentDataArray[2] = trim($oneStudentDataArray[2]);
+                if ($_GET['teachingSubject'] == $oneStudentDataArray[2]) {
+                    $averageMark += $oneStudentDataArray[3];
+                    $counter++;
+                }
+            }
         }
     }
-
     echo "Pažymių vidurkis:  ".$averageMark/$counter;
 }
 ?>

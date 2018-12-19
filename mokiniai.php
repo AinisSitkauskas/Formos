@@ -21,39 +21,39 @@
 
 </tr>
 <?php
-
-    $studentNames = file_get_contents("studentMarks.csv");
-    $studentNamesArray = explode("\n", $studentNames);
-    $n = count($studentNamesArray);
-    sort($studentNamesArray, SORT_STRING);
 $onlyStudentNamesArray = array();
-for ($i=1; $i < $n; $i++) {
-            $oneStudentData = $studentNamesArray[$i];
-            $oneStudentDataArray = explode(",", $oneStudentData);
-    array_push($onlyStudentNamesArray, $oneStudentDataArray[1]." ".$oneStudentDataArray[0]);
-}
+$uniqueStudentNamesArray = array();
+if (($studentMarks = fopen("studentMarks.csv", "r")) !== false) {
+    while (($studentData = fgetcsv($studentMarks, 1000, "\n")) !== false) {
+        $n = count($studentData);
 
-$uniqueStudentNamesArray = array_unique($onlyStudentNamesArray);
-$filteredUniqueStudentNamesArray=(array_values(array_filter($uniqueStudentNamesArray)));
+        for ($i=0; $i < $n; $i++) {
+              $oneStudentDataArray = explode(",", $studentData[$i]);
+            array_push($onlyStudentNamesArray, $oneStudentDataArray[1]." ".$oneStudentDataArray[0]);
+        }
+    }
+}
 $j =1;
-foreach ($filteredUniqueStudentNamesArray as $key => $value) {
-    $oneUniqueStudentName = $filteredUniqueStudentNamesArray[$j-1];
-    $oneUniqueStudentNameArray = explode(" ", $oneUniqueStudentName);
+$k=0;
+foreach ($onlyStudentNamesArray as $key => $value) {
+    if (!in_array($value, $uniqueStudentNamesArray)) {
+        $uniqueStudentNamesArray[$k] = $value;
+        $k++;
+    }
+}
+foreach ($uniqueStudentNamesArray as $key => $value) {
+    $oneOnlyStudentNameArray = explode(" ", $uniqueStudentNamesArray[$j-1]);
 
     ?>
           <tr>
-          <td><?php echo htmlspecialchars($oneUniqueStudentNameArray[0]); ?></td>
-          <td><?php echo htmlspecialchars($oneUniqueStudentNameArray[1]); ?></td>
+          <td><?php echo htmlspecialchars($oneOnlyStudentNameArray[0]); ?></td>
+          <td><?php echo htmlspecialchars($oneOnlyStudentNameArray[1]); ?></td>
           </tr>
 
 
               <?php
                 $j++;
 }
-
-
-
-
 ?>
 </table>
 

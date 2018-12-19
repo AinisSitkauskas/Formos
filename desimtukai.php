@@ -23,33 +23,35 @@
     <th> Data </th>
 </tr>
 <?php
+$onlyTenStudentArray = array();
+if (($studentMarks = fopen("studentMarks.csv", "r")) !== false) {
+    while (($studentData = fgetcsv($studentMarks, 1000, "\n")) !== false) {
+        $n = count($studentData);
 
-    $studentNames = file_get_contents("studentMarks.csv");
-    $studentNamesArray = explode("\n", $studentNames);
-    $n = count($studentNamesArray);
-    sort($studentNamesArray, SORT_STRING);
-
-for ($i=1; $i < $n; $i++) {
-            $oneStudentData = $studentNamesArray[$i];
-            $oneStudentDataArray = explode(",", $oneStudentData);
-    if ($oneStudentDataArray[3] == 10) {
-        ?>
-          <tr>
-          <td><?php echo htmlspecialchars($oneStudentDataArray[0]); ?></td>
-          <td><?php echo htmlspecialchars($oneStudentDataArray[1]); ?></td>
-          <td><?php echo htmlspecialchars($oneStudentDataArray[2]); ?></td>
-          <td><?php echo htmlspecialchars($oneStudentDataArray[3]); ?></td>
-          <td><?php echo htmlspecialchars($oneStudentDataArray[4]); ?></td>
-          </tr>
-
-
-              <?php
+        for ($i=0; $i < $n; $i++) {
+                $oneStudentDataArray = explode(",", $studentData[$i]);
+            if ($oneStudentDataArray[3] == 10) {
+                 array_push($onlyTenStudentArray, $oneStudentDataArray[1].",".$oneStudentDataArray[0].",".$oneStudentDataArray[2].",".$oneStudentDataArray[3].",".$oneStudentDataArray[4]);
+            }
+        }
     }
 }
+    sort($onlyTenStudentArray, SORT_STRING);
+    $m = count($onlyTenStudentArray);
+for ($i=0; $i < $m; $i++) {
+    $oneOnlytenStudentArray = explode(",", $onlyTenStudentArray[$i]);
 
+    ?>
 
-
-
+          <tr>
+          <td><?php echo htmlspecialchars($oneOnlytenStudentArray[1]); ?></td>
+          <td><?php echo htmlspecialchars($oneOnlytenStudentArray[0]); ?></td>
+          <td><?php echo htmlspecialchars($oneOnlytenStudentArray[2]); ?></td>
+          <td><?php echo htmlspecialchars($oneOnlytenStudentArray[3]); ?></td>
+          <td><?php echo htmlspecialchars($oneOnlytenStudentArray[4]); ?></td>
+          </tr>
+              <?php
+}
 ?>
 </table>
 </body>

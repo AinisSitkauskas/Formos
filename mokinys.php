@@ -29,7 +29,7 @@
 <br>
 
 <?php
-if ($_SERVER['REQUEST_METHOD'] == 'GET' && !empty($_GET['firstName']) && !empty($_GET['lastName'])) {
+if (!empty($_GET['firstName']) && !empty($_GET['lastName'])) {
     ?>
 
 
@@ -43,16 +43,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET' && !empty($_GET['firstName']) && !empty(
 </tr>
     <?php
 
-    $studentNames = file_get_contents("studentMarks.csv");
-    $studentNamesArray = explode("\n", $studentNames);
-    $n = count($studentNamesArray);
-    sort($studentNamesArray, SORT_STRING);
+    if (($studentMarks = fopen("studentMarks.csv", "r")) !== false) {
+        while (($studentData = fgetcsv($studentMarks, 1000, "\n")) !== false) {
+            $n = count($studentData);
 
-    for ($i=1; $i < $n; $i++) {
-            $oneStudentData = $studentNamesArray[$i];
-            $oneStudentDataArray = explode(",", $oneStudentData);
-        if ($_GET['lastName'] == $oneStudentDataArray[0] && $_GET['firstName'] == $oneStudentDataArray[1]) {
-            ?>
+            for ($i=0; $i < $n; $i++) {
+                    $oneStudentDataArray = explode(",", $studentData[$i]);
+                if ($_GET['lastName'] == $oneStudentDataArray[0] && $_GET['firstName'] == $oneStudentDataArray[1]) {
+                    ?>
           <tr>
           <td><?php echo htmlspecialchars($oneStudentDataArray[0]); ?></td>
           <td><?php echo htmlspecialchars($oneStudentDataArray[1]); ?></td>
@@ -62,10 +60,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET' && !empty($_GET['firstName']) && !empty(
           </tr>
 
 
-              <?php
+                     <?php
+                }
+            }
         }
     }
-
     ?>
 </table>
     <?php
