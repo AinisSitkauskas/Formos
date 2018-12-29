@@ -30,14 +30,12 @@ if (!empty($_GET['teachingSubject'])) {
     $averageMark = 0;
     $counter = 0;
     if (($studentMarks = fopen("studentMarks.csv", "r")) !== false) {
-        while (($studentData = fgetcsv($studentMarks, 1000, "\n")) !== false) {
+        while (($studentData = fgetcsv($studentMarks, 1000, ",")) !== false) {
             $n = count($studentData);
-
             for ($i=0; $i < $n; $i++) {
-                    $oneStudentDataArray = explode(",", $studentData[$i]);
-                    $oneStudentDataArray[2] = trim($oneStudentDataArray[2]);
-                if ($_GET['teachingSubject'] == $oneStudentDataArray[2]) {
-                    $averageMark += $oneStudentDataArray[3];
+                    $studentData[2] = trim($studentData[2]);
+                if ($_GET['teachingSubject'] == $studentData[2]) {
+                    $averageMark += $studentData[3];
                     $counter++;
                 }
             }
