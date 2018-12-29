@@ -25,13 +25,12 @@
 <?php
 $onlyTenStudentArray = array();
 if (($studentMarks = fopen("studentMarks.csv", "r")) !== false) {
-    while (($studentData = fgetcsv($studentMarks, 1000, "\n")) !== false) {
+    while (($studentData = fgetcsv($studentMarks, 1000, ",")) !== false) {
         $n = count($studentData);
 
         for ($i=0; $i < $n; $i++) {
-                $oneStudentDataArray = explode(",", $studentData[$i]);
-            if ($oneStudentDataArray[3] == 10) {
-                 array_push($onlyTenStudentArray, $oneStudentDataArray[1].",".$oneStudentDataArray[0].",".$oneStudentDataArray[2].",".$oneStudentDataArray[3].",".$oneStudentDataArray[4]);
+            if ($studentData[3] == 10) {
+                 array_push($onlyTenStudentArray, $studentData[1].",".$studentData[0].",".$studentData[2].",".$studentData[3].",".$studentData[4]);
             }
         }
     }
@@ -39,16 +38,16 @@ if (($studentMarks = fopen("studentMarks.csv", "r")) !== false) {
     sort($onlyTenStudentArray, SORT_STRING);
     $m = count($onlyTenStudentArray);
 for ($i=0; $i < $m; $i++) {
-    $oneOnlytenStudentArray = explode(",", $onlyTenStudentArray[$i]);
+    $oneOnlyTenStudentArray = explode(",", $onlyTenStudentArray[$i]);
 
     ?>
 
           <tr>
-          <td><?php echo htmlspecialchars($oneOnlytenStudentArray[1]); ?></td>
-          <td><?php echo htmlspecialchars($oneOnlytenStudentArray[0]); ?></td>
-          <td><?php echo htmlspecialchars($oneOnlytenStudentArray[2]); ?></td>
-          <td><?php echo htmlspecialchars($oneOnlytenStudentArray[3]); ?></td>
-          <td><?php echo htmlspecialchars($oneOnlytenStudentArray[4]); ?></td>
+          <td><?php echo htmlspecialchars($oneOnlyTenStudentArray[1]); ?></td>
+          <td><?php echo htmlspecialchars($oneOnlyTenStudentArray[0]); ?></td>
+          <td><?php echo htmlspecialchars($oneOnlyTenStudentArray[2]); ?></td>
+          <td><?php echo htmlspecialchars($oneOnlyTenStudentArray[3]); ?></td>
+          <td><?php echo htmlspecialchars($oneOnlyTenStudentArray[4]); ?></td>
           </tr>
               <?php
 }

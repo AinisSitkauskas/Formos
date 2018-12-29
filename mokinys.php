@@ -44,27 +44,26 @@ if (!empty($_GET['firstName']) && !empty($_GET['lastName'])) {
     <?php
 
     if (($studentMarks = fopen("studentMarks.csv", "r")) !== false) {
-        while (($studentData = fgetcsv($studentMarks, 1000, "\n")) !== false) {
+        while (($studentData = fgetcsv($studentMarks, 1000, ",")) !== false) {
             $n = count($studentData);
 
-            for ($i=0; $i < $n; $i++) {
-                    $oneStudentDataArray = explode(",", $studentData[$i]);
-                if ($_GET['lastName'] == $oneStudentDataArray[0] && $_GET['firstName'] == $oneStudentDataArray[1]) {
-                    ?>
+
+            if ($_GET['lastName'] == $studentData[0] && $_GET['firstName'] == $studentData[1]) {
+                ?>
           <tr>
-          <td><?php echo htmlspecialchars($oneStudentDataArray[0]); ?></td>
-          <td><?php echo htmlspecialchars($oneStudentDataArray[1]); ?></td>
-          <td><?php echo htmlspecialchars($oneStudentDataArray[2]); ?></td>
-          <td><?php echo htmlspecialchars($oneStudentDataArray[3]); ?></td>
-          <td><?php echo htmlspecialchars($oneStudentDataArray[4]); ?></td>
+          <td><?php echo htmlspecialchars($studentData[0]); ?></td>
+          <td><?php echo htmlspecialchars($studentData[1]); ?></td>
+          <td><?php echo htmlspecialchars($studentData[2]); ?></td>
+          <td><?php echo htmlspecialchars($studentData[3]); ?></td>
+          <td><?php echo htmlspecialchars($studentData[4]); ?></td>
           </tr>
 
 
                      <?php
-                }
             }
         }
     }
+
     ?>
 </table>
     <?php

@@ -24,12 +24,11 @@
 $onlyStudentNamesArray = array();
 $uniqueStudentNamesArray = array();
 if (($studentMarks = fopen("studentMarks.csv", "r")) !== false) {
-    while (($studentData = fgetcsv($studentMarks, 1000, "\n")) !== false) {
+    while (($studentData = fgetcsv($studentMarks, 1000, ",")) !== false) {
         $n = count($studentData);
 
         for ($i=0; $i < $n; $i++) {
-              $oneStudentDataArray = explode(",", $studentData[$i]);
-            array_push($onlyStudentNamesArray, $oneStudentDataArray[1]." ".$oneStudentDataArray[0]);
+            array_push($onlyStudentNamesArray, $studentData[1]." ".$studentData[0]);
         }
     }
 }
