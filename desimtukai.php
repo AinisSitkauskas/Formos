@@ -23,33 +23,33 @@
     <th> Data </th>
 </tr>
 <?php
-
-    $studentNames = file_get_contents("studentMarks.csv");
-    $studentNamesArray = explode("\n", $studentNames);
-    $n = count($studentNamesArray);
-    sort($studentNamesArray, SORT_STRING);
-
-for ($i=1; $i < $n; $i++) {
-            $oneStudentData = $studentNamesArray[$i];
-            $oneStudentDataArray = explode(",", $oneStudentData);
-    if ($oneStudentDataArray[3] == 10) {
-        ?>
-          <tr>
-          <td><?php echo htmlspecialchars($oneStudentDataArray[0]); ?></td>
-          <td><?php echo htmlspecialchars($oneStudentDataArray[1]); ?></td>
-          <td><?php echo htmlspecialchars($oneStudentDataArray[2]); ?></td>
-          <td><?php echo htmlspecialchars($oneStudentDataArray[3]); ?></td>
-          <td><?php echo htmlspecialchars($oneStudentDataArray[4]); ?></td>
-          </tr>
+$onlyTenStudentArray = array();
+if (($studentMarks = fopen("studentMarks.csv", "r")) !== false) {
+    while (($studentData = fgetcsv($studentMarks, 1000, ",")) !== false) {
+        $n = count($studentData);
 
 
-              <?php
+        if ($studentData[3] == 10) {
+                 array_push($onlyTenStudentArray, $studentData[1].",".$studentData[0].",".$studentData[2].",".$studentData[3].",".$studentData[4]);
+        }
     }
 }
+    sort($onlyTenStudentArray, SORT_STRING);
+    $m = count($onlyTenStudentArray);
+for ($i=0; $i < $m; $i++) {
+    $oneOnlyTenStudentArray = explode(",", $onlyTenStudentArray[$i]);
 
+    ?>
 
-
-
+          <tr>
+          <td><?php echo htmlspecialchars($oneOnlyTenStudentArray[1]); ?></td>
+          <td><?php echo htmlspecialchars($oneOnlyTenStudentArray[0]); ?></td>
+          <td><?php echo htmlspecialchars($oneOnlyTenStudentArray[2]); ?></td>
+          <td><?php echo htmlspecialchars($oneOnlyTenStudentArray[3]); ?></td>
+          <td><?php echo htmlspecialchars($oneOnlyTenStudentArray[4]); ?></td>
+          </tr>
+              <?php
+}
 ?>
 </table>
 </body>

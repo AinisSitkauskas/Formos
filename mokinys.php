@@ -29,7 +29,7 @@
 <br>
 
 <?php
-if ($_SERVER['REQUEST_METHOD'] == 'GET' && !empty($_GET['firstName']) && !empty($_GET['lastName'])) {
+if (!empty($_GET['firstName']) && !empty($_GET['lastName'])) {
     ?>
 
 
@@ -43,26 +43,24 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET' && !empty($_GET['firstName']) && !empty(
 </tr>
     <?php
 
-    $studentNames = file_get_contents("studentMarks.csv");
-    $studentNamesArray = explode("\n", $studentNames);
-    $n = count($studentNamesArray);
-    sort($studentNamesArray, SORT_STRING);
+    if (($studentMarks = fopen("studentMarks.csv", "r")) !== false) {
+        while (($studentData = fgetcsv($studentMarks, 1000, ",")) !== false) {
+            $n = count($studentData);
 
-    for ($i=1; $i < $n; $i++) {
-            $oneStudentData = $studentNamesArray[$i];
-            $oneStudentDataArray = explode(",", $oneStudentData);
-        if ($_GET['lastName'] == $oneStudentDataArray[0] && $_GET['firstName'] == $oneStudentDataArray[1]) {
-            ?>
+
+            if ($_GET['lastName'] == $studentData[0] && $_GET['firstName'] == $studentData[1]) {
+                ?>
           <tr>
-          <td><?php echo htmlspecialchars($oneStudentDataArray[0]); ?></td>
-          <td><?php echo htmlspecialchars($oneStudentDataArray[1]); ?></td>
-          <td><?php echo htmlspecialchars($oneStudentDataArray[2]); ?></td>
-          <td><?php echo htmlspecialchars($oneStudentDataArray[3]); ?></td>
-          <td><?php echo htmlspecialchars($oneStudentDataArray[4]); ?></td>
+          <td><?php echo htmlspecialchars($studentData[0]); ?></td>
+          <td><?php echo htmlspecialchars($studentData[1]); ?></td>
+          <td><?php echo htmlspecialchars($studentData[2]); ?></td>
+          <td><?php echo htmlspecialchars($studentData[3]); ?></td>
+          <td><?php echo htmlspecialchars($studentData[4]); ?></td>
           </tr>
 
 
-              <?php
+                     <?php
+            }
         }
     }
 
@@ -70,6 +68,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET' && !empty($_GET['firstName']) && !empty(
 </table>
     <?php
 }
+echo "<br>Laikas: " . (microtime(true) - $start) . "s";
+echo "<br>Naudojama atimintis: " . (memory_get_peak_usage(true)/1024) . "Kb";
 ?>
 </body>
 </html>
