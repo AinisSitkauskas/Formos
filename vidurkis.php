@@ -26,23 +26,23 @@
 <br>
 
 <?php
+$start = microtime(true);
 if (!empty($_GET['teachingSubject'])) {
-    $averageMark = 0;
+    $marksSum = 0;
     $counter = 0;
     if (($studentMarks = fopen("studentMarks.csv", "r")) !== false) {
-        while (($studentData = fgetcsv($studentMarks, 1000, ",")) !== false) {
-            $n = count($studentData);
-            for ($i=0; $i < $n; $i++) {
+        while (($studentData = fgetcsv($studentMarks)) !== false) {
                     $studentData[2] = trim($studentData[2]);
-                if ($_GET['teachingSubject'] == $studentData[2]) {
-                    $averageMark += $studentData[3];
-                    $counter++;
-                }
+            if ($_GET['teachingSubject'] == $studentData[2]) {
+                $marksSum += $studentData[3];
+                $counter++;
             }
         }
     }
-    echo "Pažymių vidurkis:  ".$averageMark/$counter;
+    echo "Pažymių vidurkis:  ".$marksSum/$counter;
 }
+echo "<br>Laikas: " . (microtime(true) - $start) . " s";
+echo "<br>Atimintis: " . (memory_get_peak_usage(true)/1024) . " Kb";
 ?>
 </body>
 </html>
