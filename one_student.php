@@ -1,19 +1,10 @@
 <?php
-include("parameters.php");
+
+include("connection.php");
 
 $idNumber = $_GET['id'];
-$oneRowSqlData = "select id, name, surname from students where id=$idNumber ";
-$oneRowResult = mysqli_query($connection, $oneRowSqlData);
-$oneRow = mysqli_fetch_assoc($oneRowResult);
-?>
-<tr>
-    <td><?php echo htmlspecialchars($oneRow["id"]); ?></td>
-    <td><?php echo htmlspecialchars($oneRow["name"]); ?></td>
-    <td><?php echo htmlspecialchars($oneRow["surname"]); ?></td>
-</tr>
-</table>
-</body>
-</html>
-<?php
+$rowSqlData = "select id, name, surname from students where id=$idNumber ";
+$result = mysqli_query($connection, $rowSqlData);
+$row = mysqli_fetch_assoc($result);
+include('C:\xampp\htdocs\mysql\table.php');
 mysqli_close($connection);
-die();

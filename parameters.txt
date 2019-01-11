@@ -4,8 +4,3 @@ $serverName = "";
 $userName = "";
 $password = "";
 $dbName = "";
-
-$connection = mysqli_connect($serverName, $userName, $password, $dbName);
-if (!$connection) {
-    die("Prisijungti nepavyko: " . mysqli_connect_error());
-}
