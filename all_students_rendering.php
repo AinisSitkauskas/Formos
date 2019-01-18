@@ -21,7 +21,15 @@
                 <th> Pavardė </th>
             </tr>
             <?php
-            include("all_students.php");
+            for ($i = 0; $i < $counter; $i++) {
+                ?>
+                <tr>
+                    <td><?php echo $students[$i][0]; ?></td>
+                    <td><?php echo $students[$i][1]; ?></td>
+                    <td><?php echo $students[$i][2]; ?></td>
+                </tr>
+                <?php
+            }
             ?>
         </table>
         <form  method = "get" >

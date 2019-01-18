@@ -20,9 +20,10 @@
                 <th> Vardas </th>
                 <th> Pavardė </th>
             </tr>
-            <?php
-            include("one_student.php");
-            ?>
-        </table>
-    </body>
+            <td><?php echo $student[0]; ?></td>
+            <td><?php echo $student[1]; ?></td>
+            <td><?php echo $student[2]; ?></td>
+        </tr>
+    </table>
+</body>
 </html>
