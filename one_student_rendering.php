@@ -20,9 +20,9 @@
                 <th> Vardas </th>
                 <th> Pavardė </th>
             </tr>
-            <td><?php echo $student[0]; ?></td>
-            <td><?php echo $student[1]; ?></td>
-            <td><?php echo $student[2]; ?></td>
+            <td><?= $student[0]; ?></td>
+            <td><?= $student[1]; ?></td>
+            <td><?= $student[2]; ?></td>
         </tr>
     </table>
 </body>

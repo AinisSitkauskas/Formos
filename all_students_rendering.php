@@ -21,12 +21,12 @@
                 <th> Pavardė </th>
             </tr>
             <?php
-            for ($i = 0; $i < $counter; $i++) {
+            foreach ($students as $key => $value) {
                 ?>
                 <tr>
-                    <td><?php echo $students[$i][0]; ?></td>
-                    <td><?php echo $students[$i][1]; ?></td>
-                    <td><?php echo $students[$i][2]; ?></td>
+                    <td><?= $students[$key][0]; ?></td>
+                    <td><?= $students[$key][1]; ?></td>
+                    <td><?= $students[$key][2]; ?></td>
                 </tr>
                 <?php
             }
