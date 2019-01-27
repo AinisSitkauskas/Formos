@@ -7,6 +7,6 @@ if (mysqli_num_rows($result) > 0) {
         $students[] = [$row["id"], $row["name"], $row["surname"]];
     }
 } else {
-      $error = "Rezultatų nėra";
+    $error = "Rezultatų nėra";
 }
 mysqli_close($connection);

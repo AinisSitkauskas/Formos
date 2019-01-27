@@ -34,17 +34,16 @@
         </table>
         <?php
         if (empty($_GET['id'])) {
-          ?>
-        <form  method = "get" >
-            Mokinio ID:<br>
-            <input type="text" name="id">
-            <br><br>
-            <input type="submit"  value="Rodyti">
-        </form>
-        <?php
-}
-
-         ?>
+            ?>
+            <form  method = "get" >
+                Mokinio ID:<br>
+                <input type="text" name="id">
+                <br><br>
+                <input type="submit"  value="Rodyti">
+            </form>
+            <?php
+        }
+        ?>
 
     </body>
 </html>

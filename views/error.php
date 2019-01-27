@@ -5,6 +5,6 @@
         <title>MySQL dienynas</title>
     </head>
     <body>
-<p style="color:red; font-size:20px"> <?=$error ?> </p>
-</body>
+        <p style="color:red; font-size:20px"> <?= $error ?> </p>
+    </body>
 </html>
