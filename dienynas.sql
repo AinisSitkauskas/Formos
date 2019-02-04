@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 29, 2019 at 08:10 PM
+-- Generation Time: Feb 03, 2019 at 08:45 PM
 -- Server version: 10.1.32-MariaDB
 -- PHP Version: 5.6.36
 
@@ -29,11 +29,11 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `marks` (
-  `idMark` int(255) NOT NULL,
+  `id` int(255) NOT NULL,
   `idStudent` int(255) NOT NULL,
   `idSubject` int(255) NOT NULL,
   `mark` int(255) NOT NULL,
-  `date` varchar(15) COLLATE utf8_unicode_ci NOT NULL
+  `date` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
@@ -43,7 +43,7 @@ CREATE TABLE `marks` (
 --
 
 CREATE TABLE `students` (
-  `idStudent` int(255) NOT NULL,
+  `id` int(255) NOT NULL,
   `name` varchar(30) COLLATE utf8_unicode_ci NOT NULL,
   `surname` varchar(30) COLLATE utf8_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
@@ -55,7 +55,7 @@ CREATE TABLE `students` (
 --
 
 CREATE TABLE `teaching_subjects` (
-  `idSubject` int(255) NOT NULL,
+  `id` int(255) NOT NULL,
   `teachingSubject` varchar(20) COLLATE utf8_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
@@ -67,23 +67,21 @@ CREATE TABLE `teaching_subjects` (
 -- Indexes for table `marks`
 --
 ALTER TABLE `marks`
-  ADD PRIMARY KEY (`idMark`),
-  ADD UNIQUE KEY `idMark_2` (`idMark`),
+  ADD PRIMARY KEY (`id`),
   ADD KEY `idStudent` (`idStudent`),
-  ADD KEY `idSubject` (`idSubject`),
-  ADD KEY `idMark` (`idMark`);
+  ADD KEY `idSubject` (`idSubject`);
 
 --
 -- Indexes for table `students`
 --
 ALTER TABLE `students`
-  ADD PRIMARY KEY (`idStudent`);
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `teaching_subjects`
 --
 ALTER TABLE `teaching_subjects`
-  ADD PRIMARY KEY (`idSubject`);
+  ADD PRIMARY KEY (`id`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -93,19 +91,19 @@ ALTER TABLE `teaching_subjects`
 -- AUTO_INCREMENT for table `marks`
 --
 ALTER TABLE `marks`
-  MODIFY `idMark` int(255) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `students`
 --
 ALTER TABLE `students`
-  MODIFY `idStudent` int(255) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `teaching_subjects`
 --
 ALTER TABLE `teaching_subjects`
-  MODIFY `idSubject` int(255) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT;
 
 --
 -- Constraints for dumped tables
@@ -115,8 +113,8 @@ ALTER TABLE `teaching_subjects`
 -- Constraints for table `marks`
 --
 ALTER TABLE `marks`
-  ADD CONSTRAINT `marks_ibfk_1` FOREIGN KEY (`idStudent`) REFERENCES `students` (`idStudent`) ON UPDATE CASCADE,
-  ADD CONSTRAINT `marks_ibfk_2` FOREIGN KEY (`idSubject`) REFERENCES `teaching_subjects` (`idSubject`) ON UPDATE CASCADE;
+  ADD CONSTRAINT `marks_ibfk_1` FOREIGN KEY (`idStudent`) REFERENCES `students` (`id`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `marks_ibfk_2` FOREIGN KEY (`idSubject`) REFERENCES `teaching_subjects` (`id`) ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
