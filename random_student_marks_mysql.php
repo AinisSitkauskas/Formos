@@ -1,8 +1,7 @@
 <?php
 include("connection.php");
 if (!empty($error)) {
-    echo $error;
-    die();
+    die($error);
 }
 $n = $argv[1];
 $studentFirstNames = array("Jonas Jonas", "Petras", "Antanas", "Tomas", "Juozas", "Jurgis", "Mantas", "Danielius", "Stasys", "Algis");
@@ -17,37 +16,40 @@ for ($i = 0; $i < $n; $i++) {
     $teachingRandomSubjects[$i] = $teachingSubjects[$teachingRandomSubject];
 }
 $uniqueStudentNames = array();
-foreach ($studentNames as $key => $value) {
-    if (!in_array($value, $uniqueStudentNames)) {
-        $uniqueStudentNames[] = $value;
+foreach ($studentNames as $names) {
+    if (!in_array($names, $uniqueStudentNames)) {
+        $uniqueStudentNames[] = $names;
     }
 }
 $uniqueTeachingRandomSubjects = array();
-foreach ($teachingRandomSubjects as $key => $value) {
-    if (!in_array($value, $uniqueTeachingRandomSubjects)) {
-        $uniqueTeachingRandomSubjects[] = $value;
+foreach ($teachingRandomSubjects as $key => $subject) {
+    if (!in_array($subject, $uniqueTeachingRandomSubjects)) {
+        $uniqueTeachingRandomSubjects[] = $subject;
     }
 }
-foreach ($uniqueStudentNames as $key => $value) {
+foreach ($uniqueStudentNames as $key => $names) {
     $uniqueStudentName = explode(",", $uniqueStudentNames[$key]);
     $sqlQuerry = "INSERT INTO students (name, surname) VALUES ('$uniqueStudentName[0]', '$uniqueStudentName[1]')";
     mysqli_query($connection, $sqlQuerry);
 }
-foreach ($uniqueTeachingRandomSubjects as $key => $value) {
+foreach ($uniqueTeachingRandomSubjects as $key => $subject) {
     $sqlQuerry = "INSERT INTO teaching_subjects (teachingSubject) VALUES ('$uniqueTeachingRandomSubjects[$key]')";
     mysqli_query($connection, $sqlQuerry);
 }
 $counterStudent = count($uniqueStudentNames);
 $counterSubject = count($uniqueTeachingRandomSubjects);
+define("TIME_STAMP_YEAR_2000", "946684800");
+define("TIME_STAMP_YEAR_2019", "1546300800");
 for ($i = 0; $i < $n; $i++) {
     $studentRandomNameId = rand(1, $counterStudent);
     $randomSubjectId = rand(1, $counterSubject);
-    $dateTimestamp = rand(946684800, 1546300800);
+    $dateTimestamp = rand(TIME_STAMP_YEAR_2000, TIME_STAMP_YEAR_2019);
     $mark = rand(1, 10);
     $date = date("Y-m-d", $dateTimestamp);
     $sqlQuerry = "INSERT INTO marks (idStudent, idSubject, mark, date)
     VALUES ('$studentRandomNameId', '$randomSubjectId', '$mark', '$date')";
     mysqli_query($connection, $sqlQuerry);
 }
+
 mysqli_close($connection);
 echo "Pazymiai sugeneruoti ! \n";
