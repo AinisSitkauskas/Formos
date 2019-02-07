@@ -1,4 +1,6 @@
 <?php
+define("TIMESTAMP_YEAR_2000", "946684800");
+define("TIMESTAMP_YEAR_2019", "1546300800");
 include("connection.php");
 if (!empty($error)) {
     die($error);
@@ -22,7 +24,7 @@ foreach ($studentNames as $names) {
     }
 }
 $uniqueTeachingRandomSubjects = array();
-foreach ($teachingRandomSubjects as $key => $subject) {
+foreach ($teachingRandomSubjects as $subject) {
     if (!in_array($subject, $uniqueTeachingRandomSubjects)) {
         $uniqueTeachingRandomSubjects[] = $subject;
     }
@@ -38,18 +40,15 @@ foreach ($uniqueTeachingRandomSubjects as $key => $subject) {
 }
 $counterStudent = count($uniqueStudentNames);
 $counterSubject = count($uniqueTeachingRandomSubjects);
-define("TIME_STAMP_YEAR_2000", "946684800");
-define("TIME_STAMP_YEAR_2019", "1546300800");
 for ($i = 0; $i < $n; $i++) {
     $studentRandomNameId = rand(1, $counterStudent);
     $randomSubjectId = rand(1, $counterSubject);
-    $dateTimestamp = rand(TIME_STAMP_YEAR_2000, TIME_STAMP_YEAR_2019);
+    $dateTimestamp = rand(TIMESTAMP_YEAR_2000, TIMESTAMP_YEAR_2019);
     $mark = rand(1, 10);
     $date = date("Y-m-d", $dateTimestamp);
     $sqlQuerry = "INSERT INTO marks (idStudent, idSubject, mark, date)
     VALUES ('$studentRandomNameId', '$randomSubjectId', '$mark', '$date')";
     mysqli_query($connection, $sqlQuerry);
 }
-
 mysqli_close($connection);
 echo "Pazymiai sugeneruoti ! \n";
