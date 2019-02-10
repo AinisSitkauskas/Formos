@@ -6,7 +6,7 @@ if (!empty($error)) {
     die($error);
 }
 
-function unusedRowDeletion($columnName, $tableName, $counterArrayName, $connection) {
+function deleteUnusedRows($columnName, $tableName, $counterArrayName, $connection) {
     $sqlQuery = "SELECT '$columnName' FROM marks";
     $result = mysqli_query($connection, $sqlQuery);
     if (mysqli_num_rows($result) > 0) {
@@ -86,8 +86,8 @@ for ($i = 0; $i < $n; $i++) {
     VALUES ('$studentRandomNameId', '$randomSubjectId', '$mark', '$date')";
     mysqli_query($connection, $sqlQuerry);
 }
-unusedRowDeletion("idStudent", "students", $counterStudent, $connection);
-unusedRowDeletion("idSubject", "teaching_subjects", $counterSubject, $connection);
+deleteUnusedRows("idStudent", "students", $counterStudent, $connection);
+deleteUnusedRows("idSubject", "teaching_subjects", $counterSubject, $connection);
 idNumberSorting("students", $connection);
 idNumberSorting("teaching_subjects", $connection);
 mysqli_close($connection);
