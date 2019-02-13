@@ -1,10 +1,6 @@
 <?php
 define("TIMESTAMP_YEAR_2000", "946684800");
 define("TIMESTAMP_YEAR_2019", "1546300800");
-include("connection.php");
-if (!empty($error)) {
-    die($error);
-}
 
 function getIdNumber($connection, $sqlQuery) {
     $result = mysqli_query($connection, $sqlQuery);
@@ -18,16 +14,18 @@ function getIdNumber($connection, $sqlQuery) {
     }
 }
 
+include("connection.php");
+if (!empty($error)) {
+    die($error);
+}
+
 $n = $argv[1];
-$studentFirstNames = array("Jonas Jonas", "Petras", "Antanas", "Tomas", "Juozas", "Jurgis", "Mantas", "Danielius", "Stasys", "Algis");
+$studentFirstNames = array("Jonas Dvivardis", "Petras", "Antanas", "Tomas", "Juozas", "Jurgis", "Mantas", "Danielius", "Stasys", "Algis");
 $studentLastNames = array("Kazlauskas", "Jonaitis", "Petraitis", "Minderis", "Ignatavičius", "Kavaliauskas", "Sabonis", "Savickas", "Kesminas", "Adamkus");
 $teachingSubjects = array("Lietuvių kalba", "Matematika", "Anglų kalba", "Istorija", "Fizika", "Biologija", "Chemija", "Kūno kultūra", "Technologijos");
 for ($i = 0; $i < $n; $i++) {
-    $studentFirstRandomName = rand(0, 9);
-    $studentLastRandomName = rand(0, 9);
-    $teachingRandomSubject = rand(0, 8);
-    $studentNames[$i] = $studentFirstNames[$studentFirstRandomName] . "," . $studentLastNames[$studentLastRandomName];
-    $teachingRandomSubjects[$i] = $teachingSubjects[$teachingRandomSubject];
+    $studentNames[$i] = $studentFirstNames[rand(0, 9)] . "," . $studentLastNames[rand(0, 9)];
+    $teachingRandomSubjects[$i] = $teachingSubjects[rand(0, 8)];
 }
 $uniqueStudentNames = array();
 foreach ($studentNames as $names) {
