@@ -1,5 +1,4 @@
 <?php
-include("connection.php");
 $sqlQuery = "SELECT name, surname FROM students";
 $result = mysqli_query($connection, $sqlQuery);
 if (mysqli_num_rows($result) > 0) {
@@ -9,13 +8,12 @@ if (mysqli_num_rows($result) > 0) {
 } else {
     $error = "Rezultatų nėra";
 }
-$sqlQuery = "SELECT COUNT(id) FROM students";
+$sqlQuery = "SELECT COUNT(id) AS studentsAmount FROM students";
 $result = mysqli_query($connection, $sqlQuery);
 if (mysqli_num_rows($result) > 0) {
     while ($row = mysqli_fetch_assoc($result)) {
-        $allStudents = $row["COUNT(id)"];
+        $studentsAmount = $row["studentsAmount"];
     }
 } else {
     $error = "Rezultatų nėra";
 }
-mysqli_close($connection);

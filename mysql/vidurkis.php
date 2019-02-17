@@ -1,4 +1,5 @@
 <?php
+$start = microtime(true);
 include("connection.php");
 if (!empty($error)) {
     include('views\error.php');
@@ -16,3 +17,4 @@ if (!empty($_GET['subject'])) {
     }
 }
 include('views\mokomojo_dalyko_pazymiu_vidurkis.php');
+mysqli_close($connection);

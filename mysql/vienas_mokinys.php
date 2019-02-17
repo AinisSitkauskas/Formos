@@ -1,5 +1,4 @@
 <?php
-include("connection.php");
 $name = $_GET['name'];
 $surname = $_GET['surname'];
 $sqlQuery = "SELECT students.name, students.surname, teaching_subjects.teachingSubject, marks.mark,  marks.date
@@ -15,4 +14,3 @@ if (mysqli_num_rows($result) > 0) {
 } else {
     $error = "Rezultatų nėra";
 }
-mysqli_close($connection);

@@ -1,5 +1,4 @@
 <?php
-include("connection.php");
 $subject = $_GET['subject'];
 $sqlQuery = "SELECT teaching_subjects.teachingSubject, AVG(marks.mark)
 FROM marks
@@ -13,4 +12,3 @@ if (mysqli_num_rows($result) > 0) {
 } else {
     $error = "Rezultatų nėra";
 }
-mysqli_close($connection);

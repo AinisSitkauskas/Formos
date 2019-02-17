@@ -14,16 +14,6 @@
         </style>
     </head>
     <body>
-        <table>
-
-            <?php
-            if (!empty($_GET['subject'])) {
-                ?>
-                <p>Mokomojo dalyko pažymių vidurkis:    <?= $averageGrade ?> </p>
-                <?php
-            }
-            ?>
-        </table>
         <?php
         if (empty($_GET['subject'])) {
             ?>
@@ -36,7 +26,13 @@
             </form>
             <?php
         }
+        if (!empty($_GET['subject'])) {
+            ?>
+            <p>Mokomojo dalyko pažymių vidurkis:    <?= $averageGrade ?> </p>
+            <p>Programos veikimo trukmė:    <?= microtime(true) - $start ?> s </p>
+            <p>Maksimali naudojama atmintis:    <?= memory_get_peak_usage(true) / 1024 ?> Kb </p>
+            <?php
+        }
         ?>
-
     </body>
 </html>

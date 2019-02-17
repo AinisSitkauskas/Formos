@@ -1,5 +1,4 @@
 <?php
-include("connection.php");
 $sqlQuery = "SELECT students.name, students.surname, teaching_subjects.teachingSubject, marks.mark,  marks.date
 FROM marks
 INNER JOIN students ON marks.idStudent=students.id
@@ -14,4 +13,3 @@ if (mysqli_num_rows($result) > 0) {
 } else {
     $error = "Rezultatų nėra";
 }
-mysqli_close($connection);

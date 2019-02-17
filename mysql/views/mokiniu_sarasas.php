@@ -30,6 +30,6 @@
             }
             ?>
         </table>
-        <p>Iš viso mokinių: <?= $allStudents ?> </p>
+        <p>Iš viso mokinių: <?= $studentsAmount ?> </p>
     </body>
 </html>

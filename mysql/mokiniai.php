@@ -10,3 +10,4 @@ if (empty($error)) {
 } else {
     include('views\error.php');
 }
+mysqli_close($connection);

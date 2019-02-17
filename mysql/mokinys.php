@@ -16,3 +16,4 @@ if (!empty($_GET['name']) && !empty($_GET['surname'])) {
     }
 }
 include('views\mokinio_pazymiai.php');
+mysqli_close($connection);
