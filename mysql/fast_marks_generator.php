@@ -1,56 +1,20 @@
 <?php
 define("TIMESTAMP_YEAR_2000", "946684800");
 define("TIMESTAMP_YEAR_2019", "1546300800");
+$start = microtime(true);
 
-function generateMarks($numberOfRows, $connection, $counterStudent, $counterSubject, $uniqueStudentNames, $uniqueTeachingRandomSubjects) {
-    static $studentRandomNameIdArray = array();
-    static $randomSubjectIdArray = array();
-    static $idStudent = 1;
-    static $idSubject = 1;
-    static $idRowStudent = array();
-    static $idRowSubject = array();
-    $sqlQueryStudents = "INSERT INTO students (name, surname) VALUES";
-    $sqlQuerySubject = "INSERT INTO teaching_subjects (teachingSubject) VALUES";
-    $sqlQueryMarks = "INSERT INTO marks (idStudent, idSubject, mark, date) VALUES";
-    $sqlQueryStudentsParts = array();
-    $sqlQuerySubjectParts = array();
-    unset($sqlQueryMarkParts);
+function generateMarks($numberOfRows, $connection) {
+    $sqlQueryMarks = "INSERT INTO marks (idStudent, idSubject, mark, date) VALUES ";
     for ($i = 0; $i < $numberOfRows; $i++) {
-        $studentRandomNameId = rand(0, $counterStudent);
-        $randomSubjectId = rand(0, $counterSubject);
-        $uniqueStudentName = explode(",", $uniqueStudentNames[$studentRandomNameId]);
-        if (!in_array($studentRandomNameId, $studentRandomNameIdArray)) {
-            $sqlQueryStudentsParts[] = "('$uniqueStudentName[0]', '$uniqueStudentName[1]')";
-            $studentRandomNameIdArray[] = $studentRandomNameId;
-            $idRowStudent[$studentRandomNameId] = $idStudent;
-            $idStudent++;
-        }
-        if (!in_array($randomSubjectId, $randomSubjectIdArray)) {
-            $sqlQuerySubjectParts[] = "('$uniqueTeachingRandomSubjects[$randomSubjectId]')";
-            $randomSubjectIdArray[] = $randomSubjectId;
-            $idRowSubject[$randomSubjectId] = $idSubject;
-            $idSubject++;
-        }
-        $idStudents = $idRowStudent[$studentRandomNameId];
-        $idSubjects = $idRowSubject[$randomSubjectId];
         $dateTimestamp = rand(TIMESTAMP_YEAR_2000, TIMESTAMP_YEAR_2019);
         $mark = rand(1, 10);
         $date = date("Y-m-d", $dateTimestamp);
-        $sqlQueryMarkParts[] = "('$idStudents', '$idSubjects', '$mark', '$date')";
-    }
-    $endSqlQuerry = ";";
-    if (!empty($sqlQueryStudentsParts)) {
-        $sqlQueryStudents .= implode(',', $sqlQueryStudentsParts);
-        $sqlQueryStudents .= $endSqlQuerry;
-        mysqli_query($connection, $sqlQueryStudents);
-    }
-    if (!empty($sqlQuerySubjectParts)) {
-        $sqlQuerySubject .= implode(',', $sqlQuerySubjectParts);
-        $sqlQuerySubject .= $endSqlQuerry;
-        mysqli_query($connection, $sqlQuerySubject);
+        $numberOfStudent = $i % 100 + 1;
+        $numberOfSubject = $i % 9 + 1;
+        $sqlQueryMarkParts[] = "('$numberOfStudent', '$numberOfSubject', '$mark', '$date')";
     }
     $sqlQueryMarks .= implode(',', $sqlQueryMarkParts);
-    $sqlQueryMarks .= $endSqlQuerry;
+    $sqlQueryMarks .= ";";
     mysqli_query($connection, $sqlQueryMarks);
 }
 
@@ -60,31 +24,43 @@ $studentFirstNames = array("Jonas Dvivardis", "Petras", "Antanas", "Tomas", "Juo
 $studentLastNames = array("Kazlauskas", "Jonaitis", "Petraitis", "Minderis", "Ignatavičius", "Kavaliauskas", "Sabonis", "Savickas", "Kesminas", "Adamkus");
 $teachingSubjects = array("Lietuvių kalba", "Matematika", "Anglų kalba", "Istorija", "Fizika", "Biologija", "Chemija", "Kūno kultūra", "Technologijos");
 $uniqueStudentNames = array();
-$uniqueTeachingRandomSubjects = array();
-for ($i = 0; $i < $n; $i++) {
-    $studentNames = $studentFirstNames[rand(0, 9)] . "," . $studentLastNames[rand(0, 9)];
-    $teachingRandomSubjects = $teachingSubjects[rand(0, 8)];
-
-    if (!in_array($studentNames, $uniqueStudentNames)) {
-        $uniqueStudentNames[] = $studentNames;
+$sqlQueryStudents = "INSERT INTO students (name, surname) VALUES";
+for ($i = 0; $i < 10; $i++) {
+    for ($j = 0; $j < 10; $j++) {
+        $sqlQueryStudentsParts[] = "('$studentFirstNames[$i]', '$studentLastNames[$j]')";
+        if (count($sqlQueryStudentsParts) == $n) {
+            break;
+        }
     }
-    if (!in_array($teachingRandomSubjects, $uniqueTeachingRandomSubjects)) {
-        $uniqueTeachingRandomSubjects[] = $teachingRandomSubjects;
+    if (count($uniqueStudentNames) == $n) {
+        break;
     }
 }
-$counterStudent = count($uniqueStudentNames) - 1;
-$counterSubject = count($uniqueTeachingRandomSubjects) - 1;
-
+$sqlQueryStudents .= implode(',', $sqlQueryStudentsParts);
+$sqlQueryStudents .= ";";
+mysqli_query($connection, $sqlQueryStudents);
+$sqlQuerySubject = "INSERT INTO teaching_subjects (teachingSubject) VALUES ";
+for ($i = 0; $i < 9; $i++) {
+    $sqlQuerySubjectParts[] = "('$teachingSubjects[$i]')";
+    if (count($sqlQuerySubjectParts) == $n) {
+        break;
+    }
+}
+$sqlQuerySubject .= implode(',', $sqlQuerySubjectParts);
+$sqlQuerySubject .= ";";
+mysqli_query($connection, $sqlQuerySubject);
 $m = (int) ($n / 5000);
 if ($m > 0) {
     for ($j = 0; $j < $m; $j++) {
-        generateMarks(5000, $connection, $counterStudent, $counterSubject, $uniqueStudentNames, $uniqueTeachingRandomSubjects);
+        generateMarks(5000, $connection);
     }
 }
 $k = $n % 5000;
 if ($k > 0) {
-    generateMarks($k, $connection, $counterStudent, $counterSubject, $uniqueStudentNames, $uniqueTeachingRandomSubjects);
+    generateMarks($k, $connection);
 }
 
 mysqli_close($connection);
+echo "Laikas: " . (microtime(true) - $start) . " s \n";
+echo "Maksimali naudojama atminis: " . (memory_get_peak_usage(true) / 1024) . " Kb \n";
 echo "Pazymiai sugeneruoti ! \n";
